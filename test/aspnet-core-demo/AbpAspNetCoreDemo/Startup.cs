@@ -63,7 +63,6 @@ namespace AbpAspNetCoreDemo
             services.AddMvc(options =>
             {
                 options.Filters.Add(new AbpAutoValidateAntiforgeryTokenAttribute());
-                options.AddAbpHtmlSanitizer();
             }).AddRazorRuntimeCompilation().AddOData(opts =>
             {
                 var builder = new ODataConventionModelBuilder();
@@ -126,12 +125,12 @@ namespace AbpAspNetCoreDemo
                     currentDirectory = parentDirectory.FullName;
                 }
 
-                if (!File.Exists(plugDllInPath))
-                {
-                    throw new FileNotFoundException("There is no plugin dll file in the given path.", plugDllInPath);
-                }
+                // if (!File.Exists(plugDllInPath))
+                // {
+                //     throw new FileNotFoundException("There is no plugin dll file in the given path.", plugDllInPath);
+                // }
 
-                options.PlugInSources.Add(new AssemblyFileListPlugInSource(plugDllInPath));
+                // options.PlugInSources.Add(new AssemblyFileListPlugInSource(plugDllInPath));
 
                 //Configure Log4Net logging
                 options.IocManager.IocContainer.AddFacility<LoggingFacility>(
@@ -173,6 +172,7 @@ namespace AbpAspNetCoreDemo
             app.UseEmbeddedFiles(); //Allows to expose embedded files to the web!
 
             app.UseRouting();
+            app.UseAbpHtmlSanitizer(); //Sanitize HTML inputs
 
             app.UseEndpoints(endpoints =>
             {
